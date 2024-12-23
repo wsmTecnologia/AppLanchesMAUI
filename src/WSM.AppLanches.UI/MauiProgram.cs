@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
+using WSM.AppLanches.UI.Services;
+using WSM.AppLanches.UI.Validations;
 
 namespace WSM.AppLanches.UI
 {
@@ -18,7 +20,9 @@ namespace WSM.AppLanches.UI
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
-
+            builder.Services.AddHttpClient();
+            builder.Services.AddSingleton<ApiService>();
+            builder.Services.AddSingleton<IValidator, Validator>();
             return builder.Build();
         }
     }

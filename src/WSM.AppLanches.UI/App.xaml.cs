@@ -1,12 +1,17 @@
-﻿namespace WSM.AppLanches.UI
+﻿using WSM.AppLanches.UI.Pages;
+using WSM.AppLanches.UI.Services;
+
+namespace WSM.AppLanches.UI
 {
     public partial class App : Application
     {
-        public App()
+        private readonly ApiService _apiService;
+        public App(ApiService apiService)
         {
             InitializeComponent();
-
-            MainPage = new AppShell();
+            _apiService = apiService;
+            MainPage = new NavigationPage(new InscricaoPage(_apiService));
+            
         }
     }
 }
