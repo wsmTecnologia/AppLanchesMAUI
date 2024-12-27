@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WSM.AppLanches.UI.Pages.HomePage" >
+
+    <Grid  RowDefinitions="Auto, Auto, Auto, Auto, 3*, Auto, 4*" RowSpacing="18" Margin="15">
+
+        <VerticalStackLayout Grid.Row="0" Spacing="3">
+            <Label x:Name="LblNomeUsuario" FontSize="Large" />
+            <Label Text="Tá com fome ? Que tal um lanche!!" FontAttributes="Bold" TextColor="#a90409" FontSize="Subtitle" />
+        </VerticalStackLayout>
+
+        <Label Grid.Row="1" Text="Categorias" FontAttributes="Bold" TextColor="#a90409" FontSize="Medium" />
+
+        <CollectionView Grid.Row="2" x:Name="CvCategorias" SelectionMode="Single" SelectionChanged="CvCategorias_SelectionChanged">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout ItemSpacing="20" Orientation="Horizontal" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <VerticalStackLayout>
+                        <Image HeightRequest="80" WidthRequest="80" Source="{Binding CaminhoImagem}" />
+                        <Label HorizontalOptions="Center" FontSize="Small" Text="{Binding Nome}" />
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Label Grid.Row="3" Text="Mais Vendidos" FontAttributes="Bold" TextColor="#a90409" FontSize="Medium" VerticalOptions="Center"/>
+
+        <CollectionView Grid.Row="4" x:Name="CvMaisVendidos" SelectionMode="Single">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout ItemSpacing="10" Orientation="Horizontal" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border StrokeShape="RoundRectangle 10,10,10,10">
+                        <Grid>
+                            <Image Aspect="Fill" HeightRequest="100" WidthRequest="100" Source="{Binding CaminhoImagem}" />
+                            <Label HorizontalOptions="FillAndExpand" FontSize="16" Text="{Binding Nome}" Padding="3,3" VerticalOptions="End" BackgroundColor="#80000000" />
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Label Grid.Row="5" Text="Mais Populares" FontAttributes="Bold" TextColor="#a90409" FontSize="Medium" VerticalOptions="Center"/>
+
+        <CollectionView Grid.Row="6" x:Name="CvPopulares" SelectionMode="Single">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout ItemSpacing="10" Orientation="Horizontal" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border VerticalOptions="Start" StrokeShape="RoundRectangle 10,10,10,10" Padding="3">
+                        <Grid RowSpacing="3" RowDefinitions="Auto, Auto, Auto">
+                            <Image Aspect="Fill" HeightRequest="100" WidthRequest="100" Source="{Binding CaminhoImagem}" />
+                            <Label Grid.Row="1" FontAttributes="Bold" LineBreakMode="WordWrap" MaxLines="2" Text="{Binding Nome}"/>
+                            <Label Grid.Row="2" FontAttributes="Bold" Text="{Binding Preco, StringFormat='R$ {0:F2}'}"/>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>       
+        
+    </Grid>
+
+    
+</ContentPage>
+    
