@@ -44,7 +44,7 @@ namespace WSM.AppLanches.UI.Validations
         private bool ValidarEmail(string email)
         {
             if (string.IsNullOrEmpty(email)) { EmailErro = EmailVazioErroMsg; return false; }
-            if (!Regex.IsMatch(email,@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$") { EmailErro = EmailInvalidoErroMsg; return false; }
+            if (!Regex.IsMatch(email,@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$")) { EmailErro = EmailInvalidoErroMsg; return false; }
 
             EmailErro = "";
             return true;

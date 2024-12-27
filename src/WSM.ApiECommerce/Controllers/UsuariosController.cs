@@ -7,6 +7,7 @@ using System.Security.Claims;
 using System.Text;
 using WSM.ApiECommerce.Context;
 using WSM.ApiECommerce.Entities;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace WSM.ApiECommerce.Controllers;
 
@@ -14,13 +15,13 @@ namespace WSM.ApiECommerce.Controllers;
 [ApiController]
 public class UsuariosController : ControllerBase
 {
-    private readonly AppDbContext dbContext;
+    private readonly AppDbContext _dbContext;
     private readonly IConfiguration _config;
 
     public UsuariosController(AppDbContext dbContext, IConfiguration config)
     {
         _config = config;
-        this.dbContext = dbContext;
+        this._dbContext = dbContext;
     }
 
     [HttpPost("[action]")]
@@ -28,23 +29,22 @@ public class UsuariosController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Register([FromBody] Usuario usuario)
     {
-        var usuarioExiste = await dbContext.Usuarios.FirstOrDefaultAsync(u => u.Email == usuario.Email);
+        var usuarioExiste = await _dbContext.Usuarios.FirstOrDefaultAsync(u => u.Email == usuario.Email);
 
         if (usuarioExiste is not null)
         {
             return BadRequest("Já existe usuário com este email");
         }
 
-        dbContext.Usuarios.Add(usuario);
-        await dbContext.SaveChangesAsync();
+        _dbContext.Usuarios.Add(usuario);
+        await _dbContext.SaveChangesAsync();
         return StatusCode(StatusCodes.Status201Created);
     }
 
     [HttpPost("[action]")]
     public async Task<IActionResult> Login([FromBody] Usuario usuario)
     {
-        var usuarioAtual = await dbContext.Usuarios.FirstOrDefaultAsync(u =>
-                                 u.Email == usuario.Email && u.Senha == usuario.Senha);
+        var usuarioAtual = await _dbContext.Usuarios.FirstOrDefaultAsync(u => u.Email == usuario.Email && u.Senha == usuario.Senha);
 
         if (usuarioAtual is null)
         {
@@ -70,10 +70,10 @@ public class UsuariosController : ControllerBase
 
         return new ObjectResult(new
         {
-            accesstoken = jwt,
-            tokentype = "bearer",
-            usuarioid = usuarioAtual.Id,
-            usuarionome = usuarioAtual.Nome
+            AccessToken = jwt,
+            TokenType = "bearer",
+            UsuarioId = usuarioAtual.Id,
+            UsuarioNome = usuarioAtual.Nome
         });
     }
 
@@ -82,7 +82,7 @@ public class UsuariosController : ControllerBase
     public async Task<IActionResult> UploadFotoUsuario(IFormFile imagem)
     {
         var userEmail = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
-        var usuario = await dbContext.Usuarios.FirstOrDefaultAsync(u => u.Email == userEmail);
+        var usuario = await _dbContext.Usuarios.FirstOrDefaultAsync(u => u.Email == userEmail);
 
         if (usuario is null)
         {
@@ -104,7 +104,7 @@ public class UsuariosController : ControllerBase
             // Assume que a raiz do projeto web é o root
             usuario.UrlImagem = "/userimages/" + uniqueFileName; 
 
-            await dbContext.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync();
             return Ok("Imagem enviada com sucesso");
         }
 
@@ -118,12 +118,12 @@ public class UsuariosController : ControllerBase
         //verifica se o usuário esta autenticado
         var userEmail = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
 
-        var usuario = await dbContext.Usuarios.FirstOrDefaultAsync(u => u.Email == userEmail);
+        var usuario = await _dbContext.Usuarios.FirstOrDefaultAsync(u => u.Email == userEmail);
 
         if (usuario is null) 
           return NotFound("Usuário não encontrado");
 
-        var imagemPerfil = await dbContext.Usuarios
+        var imagemPerfil = await _dbContext.Usuarios
             .Where(x => x.Email == userEmail)
             .Select(x => new
             {

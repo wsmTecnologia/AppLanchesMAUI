@@ -20,7 +20,7 @@
             <Label Text="Já possui uma conta?"/>
             <Label Text="Entre aqui" TextColor="#a90409" FontAttributes="Bold">
                 <Label.GestureRecognizers>
-                    <TapGestureRecognizer x:Name="TapRegister" Tapped="TapRegister_Tapped"/>
+                    <TapGestureRecognizer x:Name="TapLogin" Tapped="TapLogin_Tapped"/>
                 </Label.GestureRecognizers>
             </Label>
         </HorizontalStackLayout>

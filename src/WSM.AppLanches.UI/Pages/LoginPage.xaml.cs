@@ -30,7 +30,7 @@ public partial class LoginPage : ContentPage
         var response = await _apiService.Login(EntEmail.Text, EntPassword.Text);
         if (!response.HasError)
         {
-            Application.Current!.MainPage = new AppShell();
+            Application.Current!.MainPage = new AppShell(_apiService, _validator);
         }
         else
         {
@@ -38,7 +38,7 @@ public partial class LoginPage : ContentPage
         }
     }
 
-    private async void TapRegister_Tapped(object sender, TappedEventArgs e)
+    private async void TapLogin_Tapped(object sender, TappedEventArgs e)
     {
         await Navigation.PushAsync(new InscricaoPage(_apiService, _validator));
     }
