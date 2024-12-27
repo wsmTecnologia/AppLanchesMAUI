@@ -6,7 +6,7 @@
     xmlns:local="clr-namespace:WSM.AppLanches.UI"
     xmlns:pages="clr-namespace:WSM.AppLanches.UI.Pages"
     Shell.FlyoutBehavior="Disabled"
-    Shell.TabBarBackgroundColor="Orange"
+    Shell.TabBarBackgroundColor="Green"
     Shell.TabBarTitleColor="White"
     Shell.TabBarUnselectedColor="FloralWhite">
    

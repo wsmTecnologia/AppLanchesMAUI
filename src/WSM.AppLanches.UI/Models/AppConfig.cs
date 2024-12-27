@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WSM.AppLanches.UI.Models
+﻿namespace WSM.AppLanches.UI.Models
 {
     public static class AppConfig
     {

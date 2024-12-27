@@ -125,4 +125,31 @@ public partial class HomePage : ContentPage
 
         ((CollectionView)sender).SelectedItem = null;
     }
+
+    private void CvMaisVendidos_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if(sender is CollectionView collectionView)
+        {
+            NavigateToProdutoDetalhe(collectionView, e);
+        }
+    }
+
+    private void CvPopulares_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (sender is CollectionView collectionView)
+        {
+            NavigateToProdutoDetalhe(collectionView, e);
+        }
+    }
+
+    private void NavigateToProdutoDetalhe(CollectionView collectionView, SelectionChangedEventArgs e)
+    {
+        var currentSelection = e.CurrentSelection.FirstOrDefault() as Produto;
+
+        if (currentSelection == null) { return; }
+
+        Navigation.PushAsync(new ProdutosDetalhePage(currentSelection.Id, currentSelection.Nome!, _apiService, _validador));
+
+        collectionView.SelectedItem = null;
+    }
 }

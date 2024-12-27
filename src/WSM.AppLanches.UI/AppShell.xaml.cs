@@ -27,8 +27,8 @@ namespace WSM.AppLanches.UI
             {
                 Items =
                 {
-                    new ShellContent{Title="Home", Icon="home", Content=homePage},
-                    new ShellContent{Title="Carrinho", Icon="cart", Content=carrinhoPage},
+                    new ShellContent{Title="Home", Icon="casa", Content=homePage},
+                    new ShellContent{Title="Carrinho", Icon="carrinho", Content=carrinhoPage},
                     new ShellContent{Title="Favoritos", Icon="favoritos", Content=favoritoPage},
                     new ShellContent{Title="Perfil", Icon="perfil", Content=perfilPage}
                 }

@@ -3,5 +3,96 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="WSM.AppLanches.UI.Pages.ProdutosDetalhePage"
              Title="ProdutosDetalhePage">
+
+    <Grid RowDefinitions="Auto,Auto,Auto,*,Auto">
+        <Image Grid.Row="0" Grid.Column="0" x:Name="ImagemProduto" HeightRequest="320" VerticalOptions="Start" Aspect="AspectFit"/>
+        <ImageButton 
+            Grid.Row="0"
+            HeightRequest="40"
+            WidthRequest="40"
+            CornerRadius="15"
+            Margin="20"
+            Padding="5"
+            Source="heart"
+            BackgroundColor="White"
+            HorizontalOptions="End"
+            VerticalOptions="Start"
+            x:Name="ImagemBtnFavorito"
+            Clicked="ImagemBtnFavorito_Clicked"/>        
+        <HorizontalStackLayout Spacing="20" Margin="20" Grid.Row="1" HorizontalOptions="Center">
+            <Button HeightRequest="50"
+                    WidthRequest="50"
+                    CornerRadius="25"
+                    BackgroundColor="#18565f"
+                    TextColor="Wheat"
+                    Text="-"
+                    Padding="0"
+                    FontSize="30"
+                    FontAttributes="Bold"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    x:Name="BtnRemove"
+                    Clicked="BtnRemove_Clicked"/>
+            <Label x:Name="LblQuantidade" Text="1" FontSize="Large" VerticalTextAlignment="Center"/>
+            <Button HeightRequest="50"
+                    WidthRequest="50"
+                    CornerRadius="25"
+                    BackgroundColor="#18565f"
+                    TextColor="Wheat"
+                    Text="+"
+                    Padding="0"
+                    FontSize="30"
+                    FontAttributes="Bold"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    x:Name="BtnAdiciona"
+                    Clicked="BtnAdiciona_Clicked"/>
+        </HorizontalStackLayout>
+
+        <Grid ColumnDefinitions="8*,2" Margin="20" Grid.Row="2">
+            <Label Grid.Column="0" x:Name="LblProdutoNome"  VerticalOptions="Center" HorizontalOptions="Center" FontSize="20" FontAttributes="Bold"/>
+            <Label Grid.Column="1" FontSize="Medium" FontAttributes="Bold">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <FormattedString.Spans>
+                            <Span Text="R$" FontAttributes="Bold" FontSize="Medium"/>
+                            <Span x:Name="LblProdutoPreco" FontAttributes="Bold" FontSize="Medium" />
+                        </FormattedString.Spans>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+        </Grid>
+        <Label Grid.Row="3" x:Name="LblProdutoDescricao" FontSize="17" FontAttributes="Bold" Margin="15"/>
+        
+        <Grid ColumnDefinitions="5*,5*" ColumnSpacing="10"  Grid.Row="4">
+            <VerticalStackLayout>
+                <Label VerticalOptions="Center" FontSize="Medium" FontAttributes="Bold" Text="Preço Total" HorizontalOptions="Center"/>
+                <Label VerticalOptions="Center" HorizontalOptions="Center">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <FormattedString.Spans>
+                                <Span Text="R$" FontAttributes="Bold" FontSize="Medium"/>
+                                <Span x:Name="LblPrecoTotal" FontAttributes="Bold" FontSize="Medium" />
+                            </FormattedString.Spans>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+            </VerticalStackLayout>
+            <Button Grid.Column="1"
+                    HeightRequest="70"
+                    WidthRequest="120"
+                    CornerRadius="0"
+                    BackgroundColor="#18565f"
+                    TextColor="Wheat"
+                    Text="Add no Carrinho"
+                    Padding="15"
+                    Margin="0,0,0,5"
+                    FontSize="12"
+                    FontAttributes="Bold"                    
+                    x:Name="BtnIncluirNoCarrinho"
+                    Clicked="BtnIncluirNoCarrinho_Clicked"/>
+        </Grid>
+        
+    </Grid>
    
 </ContentPage>
