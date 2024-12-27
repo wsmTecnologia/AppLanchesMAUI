@@ -13,6 +13,7 @@ public partial class InscricaoPage : ContentPage
         InitializeComponent();
         _apiService = apiService;
         this._validator = validator;
+        AddAuthorizationHeader();
     }
 
 
@@ -43,6 +44,15 @@ public partial class InscricaoPage : ContentPage
             await DisplayAlert("Erro", mensagemErro, "OK");
         }       
 
+    }
+
+    private async void AddAuthorizationHeader()
+    {
+        var token = Preferences.Get("acesstoken", string.Empty);
+        if (!string.IsNullOrEmpty(token))
+        {
+            await Navigation.PushAsync(new AppShell(_apiService, _validator));
+        }
     }
 
     private async void TapRegister_Tapped(object sender, TappedEventArgs e)

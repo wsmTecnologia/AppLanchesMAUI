@@ -61,11 +61,11 @@ public partial class ListaProdutosPage : ContentPage
 
     private void CvProdutos_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        var currentSelection = e.CurrentSelection.FirstOrDefault() as Categoria;
+        var currentSelection = e.CurrentSelection.FirstOrDefault() as Produto;
 
-        if (currentSelection == null) { return; }
+        if (currentSelection is null) { return; }
 
-        Navigation.PushAsync(new ListaProdutosPage(currentSelection.Id, currentSelection.Nome!, _apiService, _validator));
+        Navigation.PushAsync(new ProdutosDetalhePage(currentSelection.Id, currentSelection.Nome!, _apiService, _validator));
 
         ((CollectionView)sender).SelectedItem = null;
     }

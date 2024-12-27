@@ -109,6 +109,37 @@ namespace WSM.AppLanches.UI.Services
             return await GetAsync<List<Produto>>(endPoint);
         }
 
+        public async Task<(Produto? ProdutoDetalhe, string ErrorMessage)> GetProdutoDetalhe(int prodId)
+        {
+            string endpoint = $"api/produtos/{prodId}";
+            return await GetAsync<Produto>(endpoint);
+        }
+
+        public async Task<ApiResponse<bool>> AdicionaItemNoCarrinho(CarrinhoCompra carrinhoCompra)
+        {
+            try
+            {
+                var json = JsonSerializer.Serialize(carrinhoCompra, _serializerOptions);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var response = await PostResquest("api/ItensCarrinhoCompra", content);
+                if (!response.IsSuccessStatusCode)
+                {
+                    _logger.LogError($"Error ao enviar requisição HTTP: {response.StatusCode}");
+                    return new ApiResponse<bool>
+                    {
+                        ErrorMessage = $"Erro ao enviar requisição HTTP:{response.StatusCode}"
+                    };
+                }
+                return new ApiResponse<bool> { Data = true };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error ao adicionar item no carrinho: {ex.Message}");
+                return new ApiResponse<bool> { ErrorMessage = ex.Message };
+            }
+        }
+
         private async Task<(T? Data,string ErrorMessage)> GetAsync<T>(string endpoint)
         {
             try
@@ -168,7 +199,7 @@ namespace WSM.AppLanches.UI.Services
 
         private async Task<HttpResponseMessage> PostResquest(string uri, HttpContent content)
         {
-            var enderecoUrl = _baseUrl + uri;
+            var enderecoUrl = AppConfig.BaseUrl + uri;
             try
             {
                 var result = await _httpClient.PostAsync(enderecoUrl, content);
