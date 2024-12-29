@@ -14,13 +14,14 @@ namespace WSM.AppLanches.UI
             _apiService = apiService;
             _validador = validador;
             ConfigureShell();
+            
         }
 
         private void ConfigureShell()
         {
             var homePage = new HomePage(_apiService, _validador);
-            var carrinhoPage = new CarrinhoPage();
-            var favoritoPage = new FavoritosPage();
+            var carrinhoPage = new CarrinhoPage(_apiService, _validador);
+            var favoritoPage = new FavoritosPage(_apiService, _validador);
             var perfilPage = new PerfilPage();
 
             Items.Add(new TabBar

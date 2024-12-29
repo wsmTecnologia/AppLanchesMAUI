@@ -9,6 +9,7 @@ public partial class HomePage : ContentPage
     private readonly ApiService _apiService;
     private readonly IValidator _validador;
     private bool _loginPageDisplay = false;
+    private bool _isDataLoaded = false;
     public HomePage(ApiService apiService, IValidator validador)
     {
         InitializeComponent();
@@ -20,9 +21,20 @@ public partial class HomePage : ContentPage
     {
         base.OnAppearing();
         LblNomeUsuario.Text = "Olá, " + Preferences.Get("usuarionome", string.Empty);
-        await GetListaCategorias();
-        await GetMaisVendidos();
-        await GetPopulares();
+        if (!_isDataLoaded)
+        {
+            await LoadDataAsync();
+            _isDataLoaded = true;
+        }
+        
+    }
+
+    private async Task LoadDataAsync()
+    {
+        var categoriaTask =  GetListaCategorias();
+        var maisVendidosTask =   GetMaisVendidos();
+        var popularesTask =  GetPopulares();
+        await Task.WhenAll(categoriaTask, maisVendidosTask, popularesTask);
     }
 
     private async Task<IEnumerable<Categoria>> GetListaCategorias()
