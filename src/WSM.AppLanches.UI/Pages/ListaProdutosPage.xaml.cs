@@ -8,7 +8,7 @@ public partial class ListaProdutosPage : ContentPage
 {
 	private readonly ApiService _apiService;
 	private readonly IValidator  _validator;
-	private int _categoriaId;
+    private int _categoriaId;
 	private bool _loginPageDisplayed = false;
     public ListaProdutosPage(int categoriaId, string categroiaNome, ApiService apiService, IValidator validator)
     {

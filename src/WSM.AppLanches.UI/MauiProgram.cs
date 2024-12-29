@@ -22,6 +22,7 @@ namespace WSM.AppLanches.UI
 #endif
             builder.Services.AddHttpClient();
             builder.Services.AddSingleton<ApiService>();
+            builder.Services.AddSingleton<FavoritosService>();
             builder.Services.AddSingleton<IValidator, Validator>();
             return builder.Build();
         }
