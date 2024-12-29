@@ -8,14 +8,12 @@ namespace WSM.AppLanches.UI
     {
         private readonly ApiService _apiService;
         private readonly IValidator _validator;
-        private readonly FavoritosService _favoritosService;
 
-        public App(ApiService apiService, IValidator validator, FavoritosService favoritosService)
+        public App(ApiService apiService, IValidator validator)
         {
             InitializeComponent();
             _apiService = apiService;
             _validator = validator;
-            _favoritosService = favoritosService;
             MainPage = new NavigationPage(new InscricaoPage(_apiService, _validator));
         }
             

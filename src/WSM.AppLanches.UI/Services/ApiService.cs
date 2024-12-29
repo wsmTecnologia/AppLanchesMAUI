@@ -210,6 +210,12 @@ namespace WSM.AppLanches.UI.Services
             }
         }
 
+        public async Task<(ImagemPerfil? imagemPerfil, string? ErrorMessage)> GetImagemPerfilUsuario()
+        {
+            string endpont = "api/usuarios/ImagemPerfilUsuario";
+            return await GetAsync<ImagemPerfil>(endpont);
+        }
+
         private async Task<(T? Data, string ErrorMessage)> GetAsync<T>(string endpoint)
         {
             try
