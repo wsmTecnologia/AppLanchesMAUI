@@ -22,7 +22,7 @@ namespace WSM.AppLanches.UI
             var homePage = new HomePage(_apiService, _validador);
             var carrinhoPage = new CarrinhoPage(_apiService, _validador);
             var favoritoPage = new FavoritosPage(_apiService, _validador);
-            var perfilPage = new PerfilPage();
+            var perfilPage = new PerfilPage(_apiService, _validador);
 
             Items.Add(new TabBar
             {

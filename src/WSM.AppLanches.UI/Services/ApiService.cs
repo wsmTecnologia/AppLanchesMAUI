@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using System.Reflection.Metadata;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
 using WSM.AppLanches.UI.Models;
@@ -206,6 +207,36 @@ namespace WSM.AppLanches.UI.Services
             catch (Exception ex)
             {
                 _logger.LogError($"Error ao confirmar pedido: {ex.Message}");
+                return new ApiResponse<bool> { ErrorMessage = ex.Message };
+            }
+        }
+
+        public async Task<(ImagemPerfil? imagemPerfil, string? ErrorMessage)> GetImagemPerfilUsuario()
+        {
+            string endpont = "api/usuarios/imagemperfil";
+            return await GetAsync<ImagemPerfil>(endpont);
+        }
+
+        public async Task<ApiResponse<bool>> UploadImagemUsuario(byte[] imageArray)
+        {
+            try
+            {
+                var content = new MultipartFormDataContent();
+                content.Add(new ByteArrayContent(imageArray), "imagem", "image.jpg");
+                var response = await PostResquest("api/usuarios/uploadfoto", content);
+
+                if(!response.IsSuccessStatusCode)
+                {
+                    string errorMessage = response.StatusCode == System.Net.HttpStatusCode.Unauthorized ? "Unauthorized" : $"Error ao enviar resquisição HTTP:{response.StatusCode}";
+
+                    _logger.LogError(errorMessage);
+                    return new ApiResponse<bool> {ErrorMessage = errorMessage};
+                }
+                return new ApiResponse<bool> {Data=true};
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Erro ao fazer upload da imagem do usuario: {ex.Message}");
                 return new ApiResponse<bool> { ErrorMessage = ex.Message };
             }
         }
