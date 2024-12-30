@@ -15,28 +15,28 @@ public class ProdutoRepository : IProdutoRepository
 
     public async Task<IEnumerable<Produto>> ObterProdutosPorCategoriaAsync(int categoriaId)
     {
-        return await _dbContext.Produtos
+        return await _dbContext.Produtos.AsNoTracking()
             .Where(p => p.CategoriaId == categoriaId)
             .ToListAsync();
     }
 
     public async Task<IEnumerable<Produto>> ObterProdutosPopularesAsync()
     {
-        return await _dbContext.Produtos
+        return await _dbContext.Produtos.AsNoTracking()
             .Where(p => p.Popular)
             .ToListAsync();
     }
 
     public async Task<IEnumerable<Produto>> ObterProdutosMaisVendidosAsync()
     {
-        return await _dbContext.Produtos
+        return await _dbContext.Produtos.AsNoTracking()
             .Where(p => p.MaisVendido)
             .ToListAsync();
     }
 
     public async Task<Produto> ObterDetalheProdutoAsync(int id)
     {
-        var detalheProduto =  await _dbContext.Produtos
+        var detalheProduto =  await _dbContext.Produtos.AsNoTracking()
                                               .FirstOrDefaultAsync(p => p.Id == id);
 
         if (detalheProduto is null)

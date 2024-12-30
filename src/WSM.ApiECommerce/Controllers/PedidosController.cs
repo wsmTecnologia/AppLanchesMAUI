@@ -24,21 +24,19 @@ public class PedidosController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> DetalhesPedido(int pedidoId)
     {
-        var pedidoDetalhes = await (from detalhePedido in dbContext.DetalhesPedido
-                                  join pedido in dbContext.Pedidos on detalhePedido.PedidoId equals pedido.Id
-                                  join produto in dbContext.Produtos on detalhePedido.ProdutoId equals produto.Id
-                                  where detalhePedido.PedidoId == pedidoId
-                                  select new
+        var pedidoDetalhes = await dbContext.DetalhesPedido.AsNoTracking()
+                                  .Where(d => d.PedidoId == pedidoId)
+                                  .Select(detalhePedido => new
                                   {
                                       Id = detalhePedido.Id,
                                       Quantidade = detalhePedido.Quantidade,
                                       SubTotal = detalhePedido.ValorTotal,
-                                      ProdutoNome = produto.Nome,
-                                      ProdutoImagem = produto.UrlImagem,
-                                      ProdutoPreco = produto.Preco
+                                      ProdutoNome = detalhePedido.Produto!.Nome,
+                                      ProdutoImagem = detalhePedido.Produto.UrlImagem,
+                                      ProdutoPreco = detalhePedido.Produto.Preco
                                   }).ToListAsync();
 
-        if (pedidoDetalhes == null || pedidoDetalhes.Count == 0)
+        if (!pedidoDetalhes.Any())
         {
             return NotFound("Detalhes do pedido não encontrados.");
         }
@@ -54,10 +52,10 @@ public class PedidosController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> PedidosPorUsuario(int usuarioId)
     {
-        var pedidos = await (from pedido in dbContext.Pedidos
-                            where pedido.UsuarioId == usuarioId
-                            orderby pedido.DataPedido descending
-                            select new
+        var pedidos = await dbContext.Pedidos.AsNoTracking()
+                            .Where(pedido => pedido.UsuarioId == usuarioId)
+                            .OrderByDescending(pedido => pedido.DataPedido)
+                            .Select(pedido => new
                             {
                                 Id = pedido.Id,
                                 PedidoTotal = pedido.ValorTotal,
