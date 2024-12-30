@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WSM.AppLanches.UI.Pages.PedidosPage"
+             Title="Meus Pedidos"
+             NavigationPage.HasNavigationBar="False">
+    <CollectionView x:Name="CvPedidos" Margin="20" SelectionMode="Single" SelectionChanged="CvPedidos_SelectionChanged">
+        <CollectionView.ItemsLayout>
+            <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
+        </CollectionView.ItemsLayout>
+
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <Border Padding="15" Stroke="#87a7ac" StrokeShape="RoundRectangle 10">
+                    <Grid RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="3*,7*">
+                        <Label Grid.Row="0" Grid.Column="0" Text="Pedido Id" />
+                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding Id}" FontAttributes="Bold" />
+                        <Label Grid.Row="1" Grid.Column="0" Text="Data Pedido" />
+                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding DataPedido, StringFormat='{0:dd.MM.yyyy hh:mm}'}" FontAttributes="Bold" />
+                        <Label Grid.Row="2" Grid.Column="0" Text="Preço Total" FontAttributes="Bold" />
+                        <Label Grid.Row="2" Grid.Column="1">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <FormattedString.Spans>
+                                        <Span Text="R$" />
+                                        <Span Text="{Binding PedidoTotal}" FontAttributes="Bold" />
+                                    </FormattedString.Spans>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                    </Grid>
+                </Border>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+</ContentPage>

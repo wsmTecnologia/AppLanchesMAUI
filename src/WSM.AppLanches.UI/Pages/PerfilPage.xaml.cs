@@ -120,7 +120,7 @@ public partial class PerfilPage : ContentPage
     }
     private void TapPedidos_Tapped(object sender, TappedEventArgs e)
     {
-
+        Navigation.PushAsync(new PedidosPage(_apiService, _validator));
     }
 
     private void MinhaConta_Tapped(object sender, TappedEventArgs e)
