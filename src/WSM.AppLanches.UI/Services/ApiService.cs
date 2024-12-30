@@ -213,7 +213,7 @@ namespace WSM.AppLanches.UI.Services
 
         public async Task<(ImagemPerfil? imagemPerfil, string? ErrorMessage)> GetImagemPerfilUsuario()
         {
-            string endpont = "api/usuarios/imagemperfil";
+            string endpont = $"api/usuarios/imagemperfil";
             return await GetAsync<ImagemPerfil>(endpont);
         }
 
@@ -239,6 +239,18 @@ namespace WSM.AppLanches.UI.Services
                 _logger.LogError($"Erro ao fazer upload da imagem do usuario: {ex.Message}");
                 return new ApiResponse<bool> { ErrorMessage = ex.Message };
             }
+        }
+
+        public async Task<(List<PedidosPorUsuario>? pedidoPorUsuarios, string ErrorMessage)> GetPedidosPorUsuario(int usuarioId)
+        {
+            string endpont = $"api/pedidos/PedidosPorUsuario/{usuarioId}";
+            return await GetAsync<List<PedidosPorUsuario>>(endpont);
+        }
+
+        public async Task<(List<PedidoDetalhe>? pedidoDetalhes, string ErrorMessage)> GetPedidosDetalhes(int pedidoId)
+        {
+            string endpont = $"api/pedidos/DetalhesPedido/{pedidoId}";
+            return await GetAsync<List<PedidoDetalhe>>(endpont);
         }
 
         private async Task<(T? Data, string ErrorMessage)> GetAsync<T>(string endpoint)

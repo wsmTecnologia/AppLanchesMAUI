@@ -1,12 +1,32 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="WSM.AppLanches.UI.Pages.PreguntasPage"
-             Title="PreguntasPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             Title="Quiz">
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+            <Label Text="Perguntas Frequentes" FontSize="Large" TextColor="DarkBlue" FontAttributes="Bold" HorizontalOptions="Center" Margin="0,0,10,0" />
+            <toolkit:Expander Margin="0,0,10,0">
+                <toolkit:Expander.Header>
+                    <Label Text="Como posso fazer um pedido?" FontSize="Medium" FontAttributes="Bold" />
+                </toolkit:Expander.Header>
+                <toolkit:Expander.Content>
+                    <Label Text="Para fazer um pedido, você deve navegar pelo nosso catálogo de lanches, selecionar os itnes desejados, adicionar ao carrinho e seguir para o checkout para finalizar a compra"
+                           TextColor="DarkBlue" FontSize="Small" />
+                </toolkit:Expander.Content>
+            </toolkit:Expander>
+            <toolkit:Expander>
+                <toolkit:Expander.Header>
+                    <Label Text="Quais são as formas de pagamento aceitas ?" FontSize="Medium" FontAttributes="Bold" />
+                </toolkit:Expander.Header>
+                <toolkit:Expander.Content>
+                    <Label Text="Aceitamos cartões de crédito e débito, Pix e pagamento em dinheiro na compra"
+               TextColor="DarkBlue" FontSize="Small" />
+                </toolkit:Expander.Content>
+            </toolkit:Expander>
+        </VerticalStackLayout>
+        
+        
+    </ScrollView>
 </ContentPage>

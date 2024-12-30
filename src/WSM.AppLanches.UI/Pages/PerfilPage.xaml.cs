@@ -60,7 +60,7 @@ public partial class PerfilPage : ContentPage
 
     private void TapPerguntas_Tapped(object sender, TappedEventArgs e)
     {
-
+        Navigation.PushAsync(new PreguntasPage());
     }
 
     private async void ImgBtnPerfil_Clicked(object sender, EventArgs e)
@@ -118,18 +118,20 @@ public partial class PerfilPage : ContentPage
         }
         return null;
     }
+
     private void TapPedidos_Tapped(object sender, TappedEventArgs e)
     {
-
+        Navigation.PushAsync(new PedidosPage(_apiService, _validator));
     }
 
     private void MinhaConta_Tapped(object sender, TappedEventArgs e)
     {
-
+        Navigation.PushAsync(new MinhaContaPage(_apiService));
     }
 
     private void BtnLogout_Clicked(object sender, EventArgs e)
     {
-
+        Preferences.Set("accesstoken", string.Empty);
+        Application.Current!.MainPage = new NavigationPage(new LoginPage(_apiService, _validator));
     }
 }
