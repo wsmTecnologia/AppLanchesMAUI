@@ -1,4 +1,3 @@
-using Android.Telecom;
 using WSM.AppLanches.UI.Models;
 using WSM.AppLanches.UI.Services;
 
