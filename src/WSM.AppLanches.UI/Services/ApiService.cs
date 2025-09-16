@@ -253,6 +253,89 @@ namespace WSM.AppLanches.UI.Services
             return await GetAsync<List<PedidoDetalhe>>(endpont);
         }
 
+        /// <summary>
+        /// Busca a cotação atual do dólar americano (USD) em relação ao real brasileiro (BRL) 
+        /// utilizando uma API externa gratuita de cotação de moedas.
+        /// </summary>
+        /// <returns>
+        /// Uma tupla contendo:
+        /// - cotacao: Objeto CotacaoMoeda com informações da cotação USD/BRL, ou null em caso de erro
+        /// - ErrorMessage: Mensagem de erro em caso de falha, ou null em caso de sucesso
+        /// </returns>
+        /// <example>
+        /// <code>
+        /// var (cotacao, erro) = await apiService.GetCotacaoDolar();
+        /// if (cotacao != null)
+        /// {
+        ///     Console.WriteLine($"1 USD = {cotacao.Rate} BRL");
+        /// }
+        /// else
+        /// {
+        ///     Console.WriteLine($"Erro: {erro}");
+        /// }
+        /// </code>
+        /// </example>
+        public async Task<(CotacaoMoeda? cotacao, string? ErrorMessage)> GetCotacaoDolar()
+        {
+            try
+            {
+                // Usando a API gratuita exchangerate-api.com para obter cotação USD para BRL
+                string url = "https://api.exchangerate-api.com/v4/latest/USD";
+                var response = await _httpClient!.GetAsync(url);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseString = await response.Content.ReadAsStringAsync();
+                    var exchangeRateData = JsonSerializer.Deserialize<JsonElement>(responseString, _serializerOptions);
+                    
+                    if (exchangeRateData.TryGetProperty("rates", out var rates) && 
+                        rates.TryGetProperty("BRL", out var brlRate))
+                    {
+                        var cotacao = new CotacaoMoeda
+                        {
+                            Base = "USD",
+                            Target = "BRL", 
+                            Rate = brlRate.GetDecimal(),
+                            LastUpdate = DateTime.Now
+                        };
+                        
+                        _logger?.LogInformation($"Cotação USD/BRL obtida com sucesso: {cotacao.Rate}");
+                        return (cotacao, null);
+                    }
+                    else
+                    {
+                        string errorMessage = "Taxa de câmbio BRL não encontrada na resposta da API";
+                        _logger?.LogError(errorMessage);
+                        return (null, errorMessage);
+                    }
+                }
+                else
+                {
+                    string errorMessage = $"Erro ao consultar cotação: {response.ReasonPhrase}";
+                    _logger?.LogError(errorMessage);
+                    return (null, errorMessage);
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                string errorMessage = $"Erro na requisição HTTP: {ex.Message}";
+                _logger?.LogError(errorMessage);
+                return (null, errorMessage);
+            }
+            catch (JsonException ex)
+            {
+                string errorMessage = $"Erro ao processar resposta JSON: {ex.Message}";
+                _logger?.LogError(errorMessage);
+                return (null, errorMessage);
+            }
+            catch (Exception ex)
+            {
+                string errorMessage = $"Erro inesperado ao buscar cotação: {ex.Message}";
+                _logger?.LogError(errorMessage);
+                return (null, errorMessage);
+            }
+        }
+
         private async Task<(T? Data, string ErrorMessage)> GetAsync<T>(string endpoint)
         {
             try
